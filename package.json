@@ -1,0 +1,33 @@
+{
+  "name": "shux",
+  "version": "0.0.1",
+  "description": "Strongly typed Flux dispatcher",
+  "main": "dist/shux.js",
+  "author": {
+    "name": "Tom Burns",
+    "url": "https://github.com/boourns"
+  },
+  "private": true,
+  "homepage": "https://github.com/boourns/shux",
+  "scripts": {
+    "test": "node_modules/.bin/jest"
+  },
+  "jest": {
+    "scriptPreprocessor": "./lib/jest-preprocessor",
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testFileExtensions": [
+      "js"
+    ]
+  },
+  "dependencies": {
+    "babel": "^5.8.23",
+    "jstransform": "^11.0.3"
+  },
+  "devDependencies": {
+    "babel-eslint": "4.0.5",
+    "eslint": "1.0.0",
+    "jest-cli": "^0.5.0"
+  }
+}
