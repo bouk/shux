@@ -50,6 +50,7 @@ function fire() {
 
 store = new ProductStore;
 store.subscribe(fire);
+store.unsubscribe(fire);
 
 Dispatcher.register(store);
 Dispatcher.register(new Other);
