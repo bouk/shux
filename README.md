@@ -48,7 +48,7 @@ class ProductStore extends Store {
 }
 
 var productStore = new ProductStore();
-# register the store
+// register the store
 Dispatcher.register(productStore);
 
 export productStore
