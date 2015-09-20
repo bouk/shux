@@ -1,8 +1,8 @@
 {
   "name": "shux",
   "version": "0.0.1",
-  "description": "Strongly typed Flux dispatcher",
-  "main": "dist/shux.js",
+  "description": "Strongly typed object oriented Flux",
+  "main": "build/index.js",
   "author": {
     "name": "Tom Burns",
     "url": "https://github.com/boourns"
@@ -13,9 +13,10 @@
     "test": "node_modules/.bin/jest"
   },
   "jest": {
-    "scriptPreprocessor": "./lib/jest-preprocessor",
+    "collectCoverage": true,
     "testPathIgnorePatterns": [
-      "/node_modules/"
+      "/node_modules/",
+      "/src/"
     ],
     "testFileExtensions": [
       "js"

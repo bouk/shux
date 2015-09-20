@@ -1,27 +1,3 @@
-class Store {
-  constructor() {
-    this._subscribers = [];
-  }
-
-  subscribe(fn) {
-    this._subscribers.push(fn);
-  }
-
-  unsubscribe(fn) {
-    this._subscribers.filter((item) => {
-      if (item !== fn) {
-        return item;
-      }
-    });
-  }
-
-  notifySubscribers() {
-    this._subscribers.forEach(function(item) {
-      item.call();
-    });
-  }
-}
-
 class Dispatcher {
   static callAction(action: string, args) {
     Dispatcher.actions[action].forEach(function (store) {
@@ -36,7 +12,6 @@ class Dispatcher {
     }
 
     Object.keys(store.actions).forEach(function (action) {
-      console.log(action);
       if (!Dispatcher.actions[action]) {
         // track this store has this action
         Dispatcher.actions[action] = [store];
@@ -50,9 +25,13 @@ class Dispatcher {
       }
     });
   }
+
+  static reset() {
+    // store a mapping of 'actionName' to an array of stores that handle that action.
+    Dispatcher.actions = {};
+  }
 }
 
-// store a mapping of 'actionName' to array of stores that handle that action.
-Dispatcher.actions = {};
+Dispatcher.reset();
 
-export default {Dispatcher,Store};
+export default Dispatcher;
