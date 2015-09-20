@@ -32,7 +32,7 @@ class ProductStore extends Store {
     this.state = {};
 
     this.actions = {
-      updateProduct: function(product) {
+      updateProduct: (product) => {
         this.state = product;
       },
 
