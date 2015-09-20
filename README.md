@@ -1,4 +1,6 @@
 # shux
+[![Build Status](https://travis-ci.org/boourns/shux.svg?branch=master)](https://travis-ci.org/boourns/shux)
+
 Easy to use flux pattern implementation
 
 After implementing a few features using Facebook's dispatcher, and a few features using `redux`, I wrote up what I felt the pros and cons of both implementations were.  Shux is an attempt to mitigate the cons, and steal the pros.
