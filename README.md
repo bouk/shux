@@ -13,7 +13,9 @@ This also has the nice benefit that you do not need to track a list of ACTION_NA
 
 Shux requires extremely little boilerplate code.  I wrote it for other developers at [Shopify](https://shopify.com/) to be able to read the code that uses it.
 
-All the other key concepts either came from [redux](https://github.com/rackt/redux) or [flux](https://github.com/facebook/flux).
+All the other key concepts either came from [redux](https://github.com/rackt/redux) or [flux](https://github.com/facebook/flux).  After implementing a few features using Facebook's dispatcher, and a few features using redux, I wrote up what I felt the pros and cons of both implementations were.
+
+Shux is an attempt to mitigate the cons, and steal the pros.
 
 # Other Features
 Implements Stores as singleton classes.  This gives a natural place to add methods that calculate derived state from the original state that is stored (aka business logic)
@@ -73,12 +75,4 @@ Call the `updateProduct` action:
 ```javascript
 Dispatcher.updateProduct({id: null, title: "new!"});
 ```
-
-
-
-# History
-
-After implementing a few features using Facebook's dispatcher, and a few features using `redux`, I wrote up what I felt the pros and cons of both implementations were.  
-
-Shux is an attempt to mitigate the cons, and steal the pros.
 
