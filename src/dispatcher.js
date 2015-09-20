@@ -1,9 +1,19 @@
 class Dispatcher {
   static callAction(action: string, args) {
-    Dispatcher.actions[action].forEach(function (store) {
-      store.actions[action](args);
-      store.notifySubscribers();
-    });
+    if (Dispatcher.dispatching) {
+      throw new Error(`action '${action}' was dispatched while dispatching a previous action.`)
+    }
+    try {
+      Dispatcher.dispatching = true;
+
+      Dispatcher.actions[action].forEach(function (store) {
+        store.actions[action](args);
+        store.notifySubscribers();
+      });
+
+    } finally {
+      Dispatcher.dispatching = false;
+    }
   }
 
   static register(store: Object) {
@@ -27,6 +37,8 @@ class Dispatcher {
   }
 
   static reset() {
+    Dispatcher.dispatching = false;
+
     // store a mapping of 'actionName' to an array of stores that handle that action.
     Dispatcher.actions = {};
   }

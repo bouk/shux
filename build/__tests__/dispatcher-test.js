@@ -75,4 +75,61 @@ describe('Dispatcher', function () {
       Dispatcher.register(TestStore);
     }).toThrow();
   });
+
+  it('errors when trying to dispatch an action during another dispatch', function () {
+    var BadStore = (function (_Store2) {
+      _inherits(BadStore, _Store2);
+
+      function BadStore() {
+        _classCallCheck(this, BadStore);
+
+        _get(Object.getPrototypeOf(BadStore.prototype), 'constructor', this).call(this);
+        this.actions = {
+          login: function (username) {
+            Dispatcher.otherAction();
+          },
+          otherAction: function () {
+            console.log("other action ran");
+          }
+        };
+      }
+
+      return BadStore;
+    })(Store);
+
+    Dispatcher.register(new TestStore());
+    Dispatcher.register(new BadStore());
+
+    expect(function () {
+      Dispatcher.login('zerocool');
+    }).toThrow();
+  });
+
+  it('does not lock the dispatcher forever if an action handler raises', function () {
+    var ErrorStore = (function (_Store3) {
+      _inherits(ErrorStore, _Store3);
+
+      function ErrorStore() {
+        _classCallCheck(this, ErrorStore);
+
+        _get(Object.getPrototypeOf(ErrorStore.prototype), 'constructor', this).call(this);
+        this.actions = {
+          errorAction: function () {
+            throw new Error('wat');
+          }
+        };
+      }
+
+      return ErrorStore;
+    })(Store);
+
+    Dispatcher.register(new ErrorStore());
+    Dispatcher.register(new TestStore());
+    try {
+      Dispatcher.errorAction();
+    } catch (e) {}
+    Dispatcher.login('zerocool');
+
+    expect(store.username()).toEqual('zerocool');
+  });
 });

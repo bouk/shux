@@ -56,5 +56,53 @@ describe('Dispatcher', () => {
       Dispatcher.register(TestStore);
     }).toThrow();
   });
-  
+
+  it('errors when trying to dispatch an action during another dispatch', () => {
+    class BadStore extends Store {
+      constructor() {
+        super();
+        this.actions = {
+          login: (username) => {
+            Dispatcher.otherAction();
+          },
+          otherAction: () => {
+            console.log("other action ran");
+          }
+        }
+      }
+    }
+
+    Dispatcher.register(new TestStore);
+    Dispatcher.register(new BadStore);
+
+    expect(() => {
+      Dispatcher.login('zerocool');
+
+    }).toThrow();
+  });
+
+  it('does not lock the dispatcher forever if an action handler raises', () => {
+    class ErrorStore extends Store {
+      constructor() {
+        super();
+        this.actions = {
+          errorAction: () => {
+            throw new Error('wat');
+          }
+        }
+      }
+    }
+
+    Dispatcher.register(new ErrorStore);
+    Dispatcher.register(new TestStore);
+    try {
+      Dispatcher.errorAction();
+    } catch(e) {
+
+    }
+    Dispatcher.login('zerocool');
+
+    expect(store.username()).toEqual('zerocool');
+  });
+
 });
