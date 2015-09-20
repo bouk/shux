@@ -3,17 +3,17 @@
 
 Easy to use flux pattern implementation
 
-After implementing a few features using Facebook's dispatcher, and a few features using `redux`, I wrote up what I felt the pros and cons of both implementations were.  Shux is an attempt to mitigate the cons, and steal the pros.
-
 Shux is optimized for ease of use both by itself and with React.
 
-Shux creates proxy methods on the Dispatcher object.  If some stores implement an action named `login`, we fire the login action via `Dispatcher.login(user, password)` which will call the action on all the stores that implement it.  This is easier to wrap your head around than firing methods via `Dispatcher.dispatch({type: 'login', user: user, password: password})` and tracking their implementations across your stores.
+When you register a store, Shux creates proxy methods on the Dispatcher object for the store's actions.  If a store implements an action named `login`, we dispatch the login action in our application code by calling `Dispatcher.login(user, password)`.  This function will call the action against all the registered stores that implement the `login` action.  
 
-This also has the nice benefit that you do not need to track a list of ACTION_NAME constants, or have action creator functions.  You also don't need a big `switch` statement to determine which action was called - let the language handle it for you.
+This is easier to wrap your head around than firing methods via `Dispatcher.dispatch({type: 'login', user: user, password: password})` and tracking their implementations across your stores.
 
-Shux requires extremely little boilerplate code.  I wrote it to make it easy for other developers at Shopify to be able to understand the intent and functionality of the code that uses it.
+This also has the nice benefit that you do not need to track a list of ACTION_NAME constants, or have action creator functions.  You also don't need a big `switch` statement to determine which action was called - let the language handle the event dispatch for you.
 
-All the other ideas either came from redux or flux.
+Shux requires extremely little boilerplate code.  I wrote it for other developers at [Shopify](https://shopify.com/) to be able to read the code that uses it.
+
+All the other key concepts either came from [redux](https://github.com/rackt/redux) or [flux](https://github.com/facebook/flux).
 
 # Other Features
 Implements Stores as singleton classes.  This gives a natural place to add methods that calculate derived state from the original state that is stored (aka business logic)
@@ -24,7 +24,8 @@ Comes with a React container that handles store update subscribe / unsubscribe s
 
 # Example
 
-Implementing a store that handles a `updateProduct` and a `logout` action.
+Create a store that receives two actions: `updateProduct` and `logout`.
+
 ```javascript
 # ProductStore.js
 import {Store,Dispatcher} from 'shux';
@@ -56,16 +57,28 @@ Dispatcher.register(productStore);
 export productStore
 ```
 
-Call the `updateProduct` action:
-```javascript
-Dispatcher.updateProduct({id: null, title: "new!"});
-```
-
 Listen for store changes:
 ```javascript
 import ProductStore from './ProductStore';
 
 ProductStore.subscribe(() => {
-  console.log("Product store updated!");
+  console.log("Product store updated");
+  if (ProductStore.productIsNew()) {
+    console.log("Product is new!");
+  }
 });
 ```
+
+Call the `updateProduct` action:
+```javascript
+Dispatcher.updateProduct({id: null, title: "new!"});
+```
+
+
+
+# History
+
+After implementing a few features using Facebook's dispatcher, and a few features using `redux`, I wrote up what I felt the pros and cons of both implementations were.  
+
+Shux is an attempt to mitigate the cons, and steal the pros.
+
