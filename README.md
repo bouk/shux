@@ -29,8 +29,9 @@ Comes with a React container that handles store update subscribe / unsubscribe s
 Create a store that receives two actions: `updateProduct` and `logout`.
 
 ```javascript
-# ProductStore.js
-import {Store,Dispatcher} from 'shux';
+// ProductStore.js
+import {Store, Dispatcher} from 'shux';
+
 class ProductStore extends Store {
   constructor() {
     super();
@@ -56,7 +57,7 @@ var productStore = new ProductStore();
 // register the store
 Dispatcher.register(productStore);
 
-export productStore
+export productStore;
 ```
 
 Listen for store changes:
@@ -75,4 +76,3 @@ Call the `updateProduct` action:
 ```javascript
 Dispatcher.updateProduct({id: null, title: "new!"});
 ```
-
