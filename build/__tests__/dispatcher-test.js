@@ -123,8 +123,9 @@ describe('Dispatcher', function () {
       return ErrorStore;
     })(Store);
 
+    var store = new TestStore();
     Dispatcher.register(new ErrorStore());
-    Dispatcher.register(new TestStore());
+    Dispatcher.register(store);
     try {
       Dispatcher.errorAction();
     } catch (e) {}

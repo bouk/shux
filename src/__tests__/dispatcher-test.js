@@ -93,8 +93,9 @@ describe('Dispatcher', () => {
       }
     }
 
+    var store = new TestStore;
     Dispatcher.register(new ErrorStore);
-    Dispatcher.register(new TestStore);
+    Dispatcher.register(store);
     try {
       Dispatcher.errorAction();
     } catch(e) {
