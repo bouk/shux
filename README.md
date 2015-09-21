@@ -9,7 +9,7 @@ When you register a store, Shux creates proxy methods on the Dispatcher object f
 
 This is easier to wrap your head around than firing methods via `Dispatcher.dispatch({type: 'login', user: user, password: password})` and tracking their implementations across your stores.
 
-This also has the nice benefit that you do not need to track a list of ACTION_NAME constants, or have action creator functions.  You also don't need a big `switch` statement to determine which action was called - let the language handle the event dispatch for you.
+This also has the nice benefit that you do not need to track a list of ACTION_NAME constants, or have action creator functions.  You also don't need a big `switch` statement to determine which action was called - let the language handle the event dispatch for you.  This also improves performance.  No longer do we have to run every reducer, every `switch` block, and every string comparison on action types.  Shux tracks which stores implement which actions at store registration, and only calls the actions where implemented.
 
 Shux requires extremely little boilerplate code.  I wrote it for other developers at [Shopify](https://shopify.com/) to be able to read the code that uses it.
 
